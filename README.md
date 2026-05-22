@@ -68,6 +68,33 @@ Vercel can import this repository as a Vite app from GitHub.
 After the GitHub repository is connected to Vercel, pushes, PRs, and merges can
 produce automatic preview or production deployments.
 
+## AI-Assisted Develop To Deploy
+
+Mercury is designed for a lightweight cloud workflow where Codex changes the
+GitHub repo, and Vercel handles public deployment from GitHub.
+
+```text
+Codex or Codespaces
+  -> GitHub branch / PR
+  -> Vercel preview deploy
+  -> Merge to main
+  -> Vercel production deploy
+  -> Public URL
+```
+
+Codex does not need to connect directly to Vercel. The key integration is
+GitHub to Vercel: import this repo in Vercel, keep the project connected to
+`main`, and let Vercel build every PR, push, and merge.
+
+This setup can stay close to zero cost for a personal project:
+
+| Service | Role | Free-tier fit |
+| --- | --- | --- |
+| GitHub Codespaces | Cloud development environment | Monthly free hours for personal use |
+| Vercel | Public web deployment | Hobby projects can deploy for free |
+| GitHub | Repo, branches, and PRs | Free for public and private personal repos |
+| ChatGPT Codex | AI code changes and PR support | Works through the GitHub repo |
+
 ## Validate
 
 ```bash
