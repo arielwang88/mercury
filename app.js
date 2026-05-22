@@ -51,6 +51,23 @@ Chat: Approval needed from finance on metric naming.`
     decisions: []
   });
 
+  function getTodayValue() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function formatDateLabel(dateValue) {
+    if (!dateValue) {
+      return "Today";
+    }
+
+    const date = new Date(`${dateValue}T00:00:00`);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric"
+    });
+  }
+
   function normalizeLine(line) {
     return line.replace(/^[-*\d.\s]+/, "").replace(/\s+/g, " ").trim();
   }
@@ -83,9 +100,9 @@ Chat: Approval needed from finance on metric naming.`
     return items.map((item) => `- ${item}`).join("\n");
   }
 
-  function buildBriefText(projectName, brief) {
+  function buildBriefText(projectName, brief, updateDate = "") {
     const project = projectName.trim() || "Project";
-    return `${project} status update
+    return `${project} status update - ${formatDateLabel(updateDate)}
 
 Updates
 ${formatList(brief.updates)}
@@ -129,11 +146,12 @@ ${formatList(brief.decisions)}`;
     });
   }
 
-  function renderBrief(projectName, rawNotes) {
+  function renderBrief(projectName, rawNotes, updateDate) {
     const brief = parseNotes(rawNotes);
     const [health, detail] = calculateHealth(brief);
 
     document.getElementById("briefTitle").textContent = projectName.trim() || "Daily TPM brief";
+    document.getElementById("briefDate").textContent = formatDateLabel(updateDate);
     document.getElementById("healthScore").textContent = health;
     document.getElementById("healthDetail").textContent = detail;
     renderList("updatesList", brief.updates);
@@ -141,15 +159,17 @@ ${formatList(brief.decisions)}`;
     renderList("risksList", brief.risks);
     renderList("blockersList", brief.blockers);
     renderList("decisionsList", brief.decisions);
-    document.getElementById("briefOutput").value = buildBriefText(projectName, brief);
+    document.getElementById("briefOutput").value = buildBriefText(projectName, brief, updateDate);
 
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ projectName, rawNotes }));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ projectName, rawNotes, updateDate }));
   }
 
   function restoreState() {
+    const dateInput = document.getElementById("updateDate");
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
-      renderBrief("", "");
+      dateInput.value = getTodayValue();
+      renderBrief("", "", dateInput.value);
       return;
     }
 
@@ -157,15 +177,18 @@ ${formatList(brief.decisions)}`;
       const state = JSON.parse(saved);
       document.getElementById("projectName").value = state.projectName || "";
       document.getElementById("rawNotes").value = state.rawNotes || "";
-      renderBrief(state.projectName || "", state.rawNotes || "");
+      dateInput.value = state.updateDate || getTodayValue();
+      renderBrief(state.projectName || "", state.rawNotes || "", dateInput.value);
     } catch {
-      renderBrief("", "");
+      dateInput.value = getTodayValue();
+      renderBrief("", "", dateInput.value);
     }
   }
 
   function wireApp() {
     const form = document.getElementById("briefForm");
     const projectInput = document.getElementById("projectName");
+    const dateInput = document.getElementById("updateDate");
     const notesInput = document.getElementById("rawNotes");
     const exampleSelect = document.getElementById("exampleSource");
     const copyStatus = document.getElementById("copyStatus");
@@ -173,22 +196,26 @@ ${formatList(brief.decisions)}`;
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       copyStatus.textContent = "";
-      renderBrief(projectInput.value, notesInput.value);
+      renderBrief(projectInput.value, notesInput.value, dateInput.value);
     });
 
     document.getElementById("loadExample").addEventListener("click", () => {
       const example = EXAMPLE_SOURCES[exampleSelect.value] || EXAMPLE_SOURCES.meeting;
       projectInput.value = example.projectName;
       notesInput.value = example.notes;
-      renderBrief(projectInput.value, notesInput.value);
+      if (!dateInput.value) {
+        dateInput.value = getTodayValue();
+      }
+      renderBrief(projectInput.value, notesInput.value, dateInput.value);
     });
 
     document.getElementById("clearBrief").addEventListener("click", () => {
       projectInput.value = "";
+      dateInput.value = getTodayValue();
       notesInput.value = "";
       localStorage.removeItem(STORAGE_KEY);
       copyStatus.textContent = "";
-      renderBrief("", "");
+      renderBrief("", "", dateInput.value);
     });
 
     document.getElementById("copyBrief").addEventListener("click", async () => {
@@ -206,6 +233,7 @@ ${formatList(brief.decisions)}`;
       calculateHealth,
       classifyLine,
       EXAMPLE_SOURCES,
+      formatDateLabel,
       parseNotes
     };
   }
