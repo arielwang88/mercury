@@ -9,6 +9,8 @@
 
 Mercury is a lightweight workspace for practical TPM tools.
 
+Try it out! [Link](https://mercury-eight-delta.vercel.app/)
+
 ## Mercury Brief
 
 Mercury Brief is a small React + Vite app that turns messy TPM source notes into a
