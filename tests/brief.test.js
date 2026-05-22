@@ -1,5 +1,12 @@
 const assert = require("node:assert/strict");
-const { buildBriefText, calculateHealth, classifyLine, EXAMPLE_SOURCES, parseNotes } = require("../app");
+const {
+  buildBriefText,
+  calculateHealth,
+  classifyLine,
+  EXAMPLE_SOURCES,
+  formatDateLabel,
+  parseNotes
+} = require("../app");
 
 const mockNotes = `Slack: Checkout event mapping is complete and analytics confirmed coverage.
 Meeting: Risk that launch slips if legal does not approve tax copy by Friday.
@@ -33,10 +40,11 @@ const [health, detail] = calculateHealth(brief);
 assert.equal(health, "Blocked");
 assert.match(detail, /1 blocker/);
 
-const output = buildBriefText("Checkout readiness", brief);
-assert.match(output, /Checkout readiness status update/);
+const output = buildBriefText("Checkout readiness", brief, "2026-05-22");
+assert.match(output, /Checkout readiness status update - May 22, 2026/);
 assert.match(output, /PAY-1842 is blocked/);
 assert.match(output, /confirm beta rollout/);
+assert.equal(formatDateLabel("2026-05-22"), "May 22, 2026");
 
 for (const [sourceName, example] of Object.entries(EXAMPLE_SOURCES)) {
   const parsed = parseNotes(example.notes);

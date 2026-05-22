@@ -29,6 +29,9 @@
           <label for="projectName">Project</label>
           <input id="projectName" name="projectName" type="text" placeholder="Payments launch, onboarding refresh, Q3 planning">
 
+          <label for="updateDate">Update date</label>
+          <input id="updateDate" name="updateDate" type="date">
+
           <label for="rawNotes">Source notes</label>
           <textarea id="rawNotes" name="rawNotes" rows="16" placeholder="Paste notes from Slack, standup, Jira, or meeting docs..."></textarea>
 
@@ -52,28 +55,50 @@
             <div>
               <p class="eyebrow">Generated update</p>
               <h2 id="briefTitle">Daily TPM brief</h2>
+              <div class="date-picker-wrap">
+                <button class="date-picker-pill" id="briefDateButton" type="button" aria-expanded="false" aria-controls="briefCalendar">
+                  <span id="briefDate">Today</span>
+                </button>
+                <div class="calendar-popover" id="briefCalendar" hidden>
+                  <div class="calendar-head">
+                    <button type="button" class="calendar-nav" id="prevMonth" aria-label="Previous month">‹</button>
+                    <strong id="calendarMonth">Month</strong>
+                    <button type="button" class="calendar-nav" id="nextMonth" aria-label="Next month">›</button>
+                  </div>
+                  <div class="calendar-weekdays" aria-hidden="true">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                  </div>
+                  <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Generated update date calendar"></div>
+                </div>
+              </div>
             </div>
             <button type="button" id="copyBrief">Copy</button>
           </div>
 
           <div class="summary-grid">
-            <article>
+            <article class="category-updates">
               <h3>Updates</h3>
               <ul id="updatesList"></ul>
             </article>
-            <article>
+            <article class="category-actions">
               <h3>Actions</h3>
               <ul id="actionsList"></ul>
             </article>
-            <article>
+            <article class="category-risks">
               <h3>Risks</h3>
               <ul id="risksList"></ul>
             </article>
-            <article>
+            <article class="category-blockers">
               <h3>Blockers</h3>
               <ul id="blockersList"></ul>
             </article>
-            <article>
+            <article class="category-decisions">
               <h3>Decisions</h3>
               <ul id="decisionsList"></ul>
             </article>
