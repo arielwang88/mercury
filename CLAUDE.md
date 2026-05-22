@@ -45,6 +45,35 @@ npm run dev
 
 In Codespaces, open the forwarded Vite port.
 
+## Develop-Deploy Architecture
+
+Use GitHub as the source of truth and Vercel as the deployment system. AI coding
+agents should update the repository through branches and pull requests, then let
+the GitHub to Vercel integration produce previews and production deploys.
+
+```text
+Codex or Codespaces
+  -> GitHub branch / PR
+  -> Vercel preview deploy
+  -> Merge to main
+  -> Vercel production deploy
+  -> Public URL
+```
+
+Codex does not need a direct Vercel connection for normal development. The
+required deployment connection is GitHub to Vercel:
+
+- Import `arielwang88/mercury` into Vercel.
+- Use the Vite framework preset.
+- Build with `npm run build`.
+- Deploy the `dist` output directory.
+- Let Vercel create preview deployments for PRs and production deployments for
+  merges to `main`.
+
+The intended low-cost stack is GitHub Codespaces for cloud development, GitHub
+for repo and PR workflow, Vercel Hobby for public hosting, and Codex for
+AI-assisted code changes.
+
 ## Validation
 
 ```bash
