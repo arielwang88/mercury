@@ -182,15 +182,27 @@ button.secondary {
   color: var(--ink);
 }
 
-.date-pill {
+.date-picker-pill {
   display: inline-flex;
+  align-items: center;
+  gap: 8px;
   width: fit-content;
+  margin: 0;
   border-radius: 999px;
   background: #e7f2ef;
   color: var(--green);
-  padding: 5px 10px;
+  padding: 5px 8px 5px 10px;
   font-size: 0.86rem;
   font-weight: 800;
+}
+
+.date-picker-pill input {
+  width: 130px;
+  border: 1px solid rgba(19, 121, 91, 0.3);
+  background: #ffffff;
+  padding: 4px 6px;
+  font-size: 0.82rem;
+  color: var(--ink);
 }
 
 .summary-grid {
