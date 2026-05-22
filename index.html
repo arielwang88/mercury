@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mercury Brief</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Mercury Brief</p>
+          <h1>Turn scattered TPM notes into a crisp status update.</h1>
+          <p class="lede">
+            Paste standup, Slack, Jira, or meeting notes. Mercury groups the
+            signal, drafts the brief, and keeps the latest snapshot in your browser.
+          </p>
+        </div>
+        <div class="pulse-panel" aria-label="Brief health summary">
+          <span class="pulse-label">Brief health</span>
+          <strong id="healthScore">Ready</strong>
+          <span id="healthDetail">Paste notes to build a project pulse.</span>
+        </div>
+      </section>
+
+      <section class="workspace" aria-label="Mercury Brief workspace">
+        <form class="input-panel" id="briefForm">
+          <label for="projectName">Project</label>
+          <input id="projectName" name="projectName" type="text" placeholder="Payments launch, onboarding refresh, Q3 planning">
+
+          <label for="rawNotes">Source notes</label>
+          <textarea id="rawNotes" name="rawNotes" rows="16" placeholder="Paste notes from Slack, standup, Jira, or meeting docs..."></textarea>
+
+          <div class="button-row">
+            <button type="submit">Build brief</button>
+            <button type="button" class="secondary" id="loadExample">Use example</button>
+            <button type="button" class="secondary" id="clearBrief">Clear</button>
+          </div>
+        </form>
+
+        <section class="brief-panel" aria-live="polite">
+          <div class="brief-header">
+            <div>
+              <p class="eyebrow">Generated update</p>
+              <h2 id="briefTitle">Daily TPM brief</h2>
+            </div>
+            <button type="button" id="copyBrief">Copy</button>
+          </div>
+
+          <div class="summary-grid">
+            <article>
+              <h3>Updates</h3>
+              <ul id="updatesList"></ul>
+            </article>
+            <article>
+              <h3>Actions</h3>
+              <ul id="actionsList"></ul>
+            </article>
+            <article>
+              <h3>Risks</h3>
+              <ul id="risksList"></ul>
+            </article>
+            <article>
+              <h3>Blockers</h3>
+              <ul id="blockersList"></ul>
+            </article>
+            <article>
+              <h3>Decisions</h3>
+              <ul id="decisionsList"></ul>
+            </article>
+          </div>
+
+          <label for="briefOutput">Editable brief</label>
+          <textarea id="briefOutput" rows="12"></textarea>
+          <p class="copy-status" id="copyStatus" role="status"></p>
+        </section>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
