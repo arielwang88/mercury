@@ -51,8 +51,17 @@ Chat: Approval needed from finance on metric naming.`
     decisions: []
   });
 
+  let calendarViewDate = new Date();
+
   function getTodayValue() {
     return new Date().toISOString().slice(0, 10);
+  }
+
+  function toDateValue(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   }
 
   function formatDateLabel(dateValue) {
@@ -66,6 +75,10 @@ Chat: Approval needed from finance on metric naming.`
       day: "numeric",
       year: "numeric"
     });
+  }
+
+  function getDateFromValue(dateValue) {
+    return new Date(`${dateValue || getTodayValue()}T00:00:00`);
   }
 
   function normalizeLine(line) {
@@ -152,7 +165,6 @@ ${formatList(brief.decisions)}`;
 
     document.getElementById("briefTitle").textContent = projectName.trim() || "Daily TPM brief";
     document.getElementById("briefDate").textContent = formatDateLabel(updateDate);
-    document.getElementById("briefDateInput").value = updateDate || "";
     document.getElementById("healthScore").textContent = health;
     document.getElementById("healthDetail").textContent = detail;
     renderList("updatesList", brief.updates);
@@ -167,11 +179,10 @@ ${formatList(brief.decisions)}`;
 
   function restoreState() {
     const dateInput = document.getElementById("updateDate");
-    const briefDateInput = document.getElementById("briefDateInput");
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
       dateInput.value = getTodayValue();
-      briefDateInput.value = dateInput.value;
+      calendarViewDate = getDateFromValue(dateInput.value);
       renderBrief("", "", dateInput.value);
       return;
     }
@@ -181,27 +192,88 @@ ${formatList(brief.decisions)}`;
       document.getElementById("projectName").value = state.projectName || "";
       document.getElementById("rawNotes").value = state.rawNotes || "";
       dateInput.value = state.updateDate || getTodayValue();
-      briefDateInput.value = dateInput.value;
+      calendarViewDate = getDateFromValue(dateInput.value);
       renderBrief(state.projectName || "", state.rawNotes || "", dateInput.value);
     } catch {
       dateInput.value = getTodayValue();
-      briefDateInput.value = dateInput.value;
+      calendarViewDate = getDateFromValue(dateInput.value);
       renderBrief("", "", dateInput.value);
     }
+  }
+
+  function renderCalendar(selectedDateValue) {
+    const grid = document.getElementById("calendarGrid");
+    const monthLabel = document.getElementById("calendarMonth");
+    const viewYear = calendarViewDate.getFullYear();
+    const viewMonth = calendarViewDate.getMonth();
+    const firstOfMonth = new Date(viewYear, viewMonth, 1);
+    const gridStart = new Date(viewYear, viewMonth, 1 - firstOfMonth.getDay());
+    monthLabel.textContent = calendarViewDate.toLocaleDateString("en-US", {
+      month: "long",
+      year: "numeric"
+    });
+    grid.innerHTML = "";
+
+    for (let index = 0; index < 42; index += 1) {
+      const day = new Date(gridStart);
+      day.setDate(gridStart.getDate() + index);
+      const dayValue = toDateValue(day);
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "calendar-day";
+      button.textContent = String(day.getDate());
+      button.setAttribute("role", "gridcell");
+      button.setAttribute("aria-label", formatDateLabel(dayValue));
+      if (day.getMonth() !== viewMonth) {
+        button.classList.add("is-muted");
+      }
+      if (dayValue === selectedDateValue) {
+        button.classList.add("is-selected");
+        button.setAttribute("aria-selected", "true");
+      }
+      button.addEventListener("click", () => {
+        setDateFromPicker(dayValue);
+        closeCalendar();
+      });
+      grid.appendChild(button);
+    }
+  }
+
+  function openCalendar() {
+    const calendar = document.getElementById("briefCalendar");
+    const button = document.getElementById("briefDateButton");
+    calendar.hidden = false;
+    button.setAttribute("aria-expanded", "true");
+    renderCalendar(document.getElementById("updateDate").value);
+  }
+
+  function closeCalendar() {
+    const calendar = document.getElementById("briefCalendar");
+    const button = document.getElementById("briefDateButton");
+    calendar.hidden = true;
+    button.setAttribute("aria-expanded", "false");
+  }
+
+  function setDateFromPicker(dateValue) {
+    const projectInput = document.getElementById("projectName");
+    const dateInput = document.getElementById("updateDate");
+    const notesInput = document.getElementById("rawNotes");
+    dateInput.value = dateValue;
+    calendarViewDate = getDateFromValue(dateValue);
+    renderBrief(projectInput.value, notesInput.value, dateValue);
   }
 
   function wireApp() {
     const form = document.getElementById("briefForm");
     const projectInput = document.getElementById("projectName");
     const dateInput = document.getElementById("updateDate");
-    const briefDateInput = document.getElementById("briefDateInput");
     const notesInput = document.getElementById("rawNotes");
     const exampleSelect = document.getElementById("exampleSource");
     const copyStatus = document.getElementById("copyStatus");
 
     function syncAndRenderFromDate(dateValue) {
       dateInput.value = dateValue;
-      briefDateInput.value = dateValue;
+      calendarViewDate = getDateFromValue(dateValue);
       copyStatus.textContent = "";
       renderBrief(projectInput.value, notesInput.value, dateValue);
     }
@@ -216,8 +288,29 @@ ${formatList(brief.decisions)}`;
       syncAndRenderFromDate(dateInput.value || getTodayValue());
     });
 
-    briefDateInput.addEventListener("change", () => {
-      syncAndRenderFromDate(briefDateInput.value || getTodayValue());
+    document.getElementById("briefDateButton").addEventListener("click", () => {
+      const calendar = document.getElementById("briefCalendar");
+      if (calendar.hidden) {
+        openCalendar();
+      } else {
+        closeCalendar();
+      }
+    });
+
+    document.getElementById("prevMonth").addEventListener("click", () => {
+      calendarViewDate.setMonth(calendarViewDate.getMonth() - 1);
+      renderCalendar(dateInput.value);
+    });
+
+    document.getElementById("nextMonth").addEventListener("click", () => {
+      calendarViewDate.setMonth(calendarViewDate.getMonth() + 1);
+      renderCalendar(dateInput.value);
+    });
+
+    document.addEventListener("click", (event) => {
+      if (!document.querySelector(".date-picker-wrap").contains(event.target)) {
+        closeCalendar();
+      }
     });
 
     document.getElementById("loadExample").addEventListener("click", () => {
@@ -227,14 +320,14 @@ ${formatList(brief.decisions)}`;
       if (!dateInput.value) {
         dateInput.value = getTodayValue();
       }
-      briefDateInput.value = dateInput.value;
+      calendarViewDate = getDateFromValue(dateInput.value);
       renderBrief(projectInput.value, notesInput.value, dateInput.value);
     });
 
     document.getElementById("clearBrief").addEventListener("click", () => {
       projectInput.value = "";
       dateInput.value = getTodayValue();
-      briefDateInput.value = dateInput.value;
+      calendarViewDate = getDateFromValue(dateInput.value);
       notesInput.value = "";
       localStorage.removeItem(STORAGE_KEY);
       copyStatus.textContent = "";
