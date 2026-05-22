@@ -152,6 +152,7 @@ ${formatList(brief.decisions)}`;
 
     document.getElementById("briefTitle").textContent = projectName.trim() || "Daily TPM brief";
     document.getElementById("briefDate").textContent = formatDateLabel(updateDate);
+    document.getElementById("briefDateInput").value = updateDate || "";
     document.getElementById("healthScore").textContent = health;
     document.getElementById("healthDetail").textContent = detail;
     renderList("updatesList", brief.updates);
@@ -166,9 +167,11 @@ ${formatList(brief.decisions)}`;
 
   function restoreState() {
     const dateInput = document.getElementById("updateDate");
+    const briefDateInput = document.getElementById("briefDateInput");
     const saved = localStorage.getItem(STORAGE_KEY);
     if (!saved) {
       dateInput.value = getTodayValue();
+      briefDateInput.value = dateInput.value;
       renderBrief("", "", dateInput.value);
       return;
     }
@@ -178,9 +181,11 @@ ${formatList(brief.decisions)}`;
       document.getElementById("projectName").value = state.projectName || "";
       document.getElementById("rawNotes").value = state.rawNotes || "";
       dateInput.value = state.updateDate || getTodayValue();
+      briefDateInput.value = dateInput.value;
       renderBrief(state.projectName || "", state.rawNotes || "", dateInput.value);
     } catch {
       dateInput.value = getTodayValue();
+      briefDateInput.value = dateInput.value;
       renderBrief("", "", dateInput.value);
     }
   }
@@ -189,14 +194,30 @@ ${formatList(brief.decisions)}`;
     const form = document.getElementById("briefForm");
     const projectInput = document.getElementById("projectName");
     const dateInput = document.getElementById("updateDate");
+    const briefDateInput = document.getElementById("briefDateInput");
     const notesInput = document.getElementById("rawNotes");
     const exampleSelect = document.getElementById("exampleSource");
     const copyStatus = document.getElementById("copyStatus");
+
+    function syncAndRenderFromDate(dateValue) {
+      dateInput.value = dateValue;
+      briefDateInput.value = dateValue;
+      copyStatus.textContent = "";
+      renderBrief(projectInput.value, notesInput.value, dateValue);
+    }
 
     form.addEventListener("submit", (event) => {
       event.preventDefault();
       copyStatus.textContent = "";
       renderBrief(projectInput.value, notesInput.value, dateInput.value);
+    });
+
+    dateInput.addEventListener("change", () => {
+      syncAndRenderFromDate(dateInput.value || getTodayValue());
+    });
+
+    briefDateInput.addEventListener("change", () => {
+      syncAndRenderFromDate(briefDateInput.value || getTodayValue());
     });
 
     document.getElementById("loadExample").addEventListener("click", () => {
@@ -206,12 +227,14 @@ ${formatList(brief.decisions)}`;
       if (!dateInput.value) {
         dateInput.value = getTodayValue();
       }
+      briefDateInput.value = dateInput.value;
       renderBrief(projectInput.value, notesInput.value, dateInput.value);
     });
 
     document.getElementById("clearBrief").addEventListener("click", () => {
       projectInput.value = "";
       dateInput.value = getTodayValue();
+      briefDateInput.value = dateInput.value;
       notesInput.value = "";
       localStorage.removeItem(STORAGE_KEY);
       copyStatus.textContent = "";
