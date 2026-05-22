@@ -55,10 +55,28 @@
             <div>
               <p class="eyebrow">Generated update</p>
               <h2 id="briefTitle">Daily TPM brief</h2>
-              <label class="date-picker-pill" for="briefDateInput">
-                <span id="briefDate">Today</span>
-                <input id="briefDateInput" type="date" aria-label="Generated update date">
-              </label>
+              <div class="date-picker-wrap">
+                <button class="date-picker-pill" id="briefDateButton" type="button" aria-expanded="false" aria-controls="briefCalendar">
+                  <span id="briefDate">Today</span>
+                </button>
+                <div class="calendar-popover" id="briefCalendar" hidden>
+                  <div class="calendar-head">
+                    <button type="button" class="calendar-nav" id="prevMonth" aria-label="Previous month">‹</button>
+                    <strong id="calendarMonth">Month</strong>
+                    <button type="button" class="calendar-nav" id="nextMonth" aria-label="Next month">›</button>
+                  </div>
+                  <div class="calendar-weekdays" aria-hidden="true">
+                    <span>Sun</span>
+                    <span>Mon</span>
+                    <span>Tue</span>
+                    <span>Wed</span>
+                    <span>Thu</span>
+                    <span>Fri</span>
+                    <span>Sat</span>
+                  </div>
+                  <div class="calendar-grid" id="calendarGrid" role="grid" aria-label="Generated update date calendar"></div>
+                </div>
+              </div>
             </div>
             <button type="button" id="copyBrief">Copy</button>
           </div>
