@@ -2,7 +2,7 @@
 
 ![Mercury Brief demo](assets/mercury-brief-demo.svg)
 
-![Static app](https://img.shields.io/badge/app-static%20HTML%2FCSS%2FJS-2166A5)
+![React app](https://img.shields.io/badge/app-React%20%2B%20Vite-2166A5)
 ![TPM workflow](https://img.shields.io/badge/workflow-TPM%20status%20briefs-13795B)
 ![No backend](https://img.shields.io/badge/backend-none-B83280)
 ![Tests](https://img.shields.io/badge/tests-node%20assertions-A16207)
@@ -11,7 +11,7 @@ Mercury is a lightweight workspace for practical TPM tools.
 
 ## Mercury Brief
 
-Mercury Brief is a small static app that turns messy TPM source notes into a
+Mercury Brief is a small React + Vite app that turns messy TPM source notes into a
 structured daily status update. Paste notes from Slack, standup, Jira, meeting
 docs, or team chats, then generate an editable brief with updates, actions,
 risks, blockers, and decisions.
@@ -45,20 +45,34 @@ share, and act on.
 
 ## Run locally
 
-Open `index.html` in a browser, or serve the folder with any static file server.
+Install dependencies, then start the Vite dev server.
 
 ```bash
-python3 -m http.server 4173
+npm install
+npm run dev
 ```
 
-Then open `http://127.0.0.1:4173`.
+Vite will print the local URL, usually `http://localhost:5173`.
 
-In GitHub Codespaces, start the same server and open the forwarded `4173` port.
+In GitHub Codespaces, open the forwarded Vite port after running `npm run dev`.
+
+## Deploy on Vercel
+
+Vercel can import this repository as a Vite app from GitHub.
+
+- Framework preset: `Vite`
+- Build command: `npm run build`
+- Output directory: `dist`
+- Install command: `npm install`
+
+After the GitHub repository is connected to Vercel, pushes, PRs, and merges can
+produce automatic preview or production deployments.
 
 ## Validate
 
 ```bash
 npm test
+npm run build
 ```
 
 The test uses mock TPM inputs from Slack, meetings, Jira, and team chats to
