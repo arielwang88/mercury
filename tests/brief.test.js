@@ -1,12 +1,12 @@
-const assert = require("node:assert/strict");
-const {
+import assert from "node:assert/strict";
+import {
   buildBriefText,
   calculateHealth,
   classifyLine,
   EXAMPLE_SOURCES,
   formatDateLabel,
   parseNotes
-} = require("../app");
+} from "../src/brief.js";
 
 const mockNotes = `Slack: Checkout event mapping is complete and analytics confirmed coverage.
 Meeting: Risk that launch slips if legal does not approve tax copy by Friday.

@@ -2,10 +2,10 @@
 
 ## Overview
 
-Mercury is a small static TPM utility. The current app, Mercury Brief, turns
+Mercury is a small React + Vite TPM utility. The current app, Mercury Brief, turns
 messy source notes into a structured daily status update.
 
-The app has no build step and no backend. It is plain HTML, CSS, and JavaScript.
+The app has no backend. Vite builds the static production output into `dist/`.
 
 ## Current App Behavior
 
@@ -13,7 +13,7 @@ The app has no build step and no backend. It is plain HTML, CSS, and JavaScript.
 - Users can load example notes from meeting notes, Jira updates, Slack threads,
   or team chats.
 - Notes are classified into updates, actions, risks, blockers, and decisions by
-  deterministic keyword rules in `app.js`.
+  deterministic keyword rules in `src/brief.js`.
 - The generated brief is editable and can be copied.
 - The left form date and right generated-panel date stay synced.
 - The right generated-panel date uses a custom calendar popover instead of the
@@ -23,23 +23,56 @@ The app has no build step and no backend. It is plain HTML, CSS, and JavaScript.
 ## Files
 
 - `index.html`: App structure and controls.
-- `styles.css`: Visual design, color-coded categories, and custom calendar
+- `src/main.jsx`: React UI, date sync, custom calendar, and browser persistence.
+- `src/brief.js`: Parsing, classification, examples, date formatting, and brief
+  generation helpers.
+- `src/styles.css`: Visual design, color-coded categories, and custom calendar
   styling.
-- `app.js`: Parsing, classification, rendering, examples, date sync, calendar,
-  and browser persistence.
 - `tests/brief.test.js`: Node-based assertions for classification, examples, and
   date formatting.
-- `package.json`: Defines `npm test`.
+- `vite.config.js`: Vite React configuration.
+- `package.json`: Defines `npm run dev`, `npm run build`, `npm run preview`, and
+  `npm test`.
 
 ## Run Locally
 
-Open `index.html` directly, or run a static file server:
+Install dependencies and run the Vite dev server:
 
 ```bash
-python3 -m http.server 4173
+npm install
+npm run dev
 ```
 
-Then visit `http://127.0.0.1:4173`.
+In Codespaces, open the forwarded Vite port.
+
+## Develop-Deploy Architecture
+
+Use GitHub as the source of truth and Vercel as the deployment system. AI coding
+agents should update the repository through branches and pull requests, then let
+the GitHub to Vercel integration produce previews and production deploys.
+
+```text
+Codex or Codespaces
+  -> GitHub branch / PR
+  -> Vercel preview deploy
+  -> Merge to main
+  -> Vercel production deploy
+  -> Public URL
+```
+
+Codex does not need a direct Vercel connection for normal development. The
+required deployment connection is GitHub to Vercel:
+
+- Import `arielwang88/mercury` into Vercel.
+- Use the Vite framework preset.
+- Build with `npm run build`.
+- Deploy the `dist` output directory.
+- Let Vercel create preview deployments for PRs and production deployments for
+  merges to `main`.
+
+The intended low-cost stack is GitHub Codespaces for cloud development, GitHub
+for repo and PR workflow, Vercel Hobby for public hosting, and Codex for
+AI-assisted code changes.
 
 ## Validation
 
@@ -51,11 +84,12 @@ If `npm` is available:
 
 ```bash
 npm test
+npm run build
 ```
 
 ## Implementation Notes
 
-- Keep the app dependency-free unless there is a strong reason to add tooling.
+- Keep runtime dependencies minimal; this should stay a simple React + Vite app.
 - Keep parsing deterministic for now; this avoids API keys and makes tests
   stable.
 - When changing source examples, update tests so every selectable example still
