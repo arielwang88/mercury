@@ -1,0 +1,64 @@
+<svg width="1200" height="760" viewBox="0 0 1200 760" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="760" rx="32" fill="#FBFBF8"/>
+  <rect width="1200" height="760" rx="32" fill="url(#bg)"/>
+  <rect x="64" y="56" width="1072" height="648" rx="24" fill="white" fill-opacity="0.82" stroke="#D9E0E6"/>
+  <text x="96" y="118" fill="#2166A5" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">MERCURY BRIEF</text>
+  <text x="96" y="170" fill="#17202A" font-family="Inter, Arial, sans-serif" font-size="44" font-weight="800">Daily TPM updates from messy notes</text>
+  <text x="96" y="214" fill="#5F6F7D" font-family="Inter, Arial, sans-serif" font-size="22">Meeting notes, Jira updates, Slack threads, and team chats become a clear status brief.</text>
+
+  <rect x="96" y="270" width="402" height="402" rx="16" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <text x="126" y="318" fill="#17202A" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="800">Source notes</text>
+  <rect x="126" y="344" width="338" height="40" rx="8" fill="#F4EBFF" stroke="#D7C7F4"/>
+  <text x="146" y="370" fill="#6D3BBD" font-family="Inter, Arial, sans-serif" font-size="17" font-weight="700">Slack thread</text>
+  <rect x="126" y="410" width="338" height="128" rx="10" fill="#FBFBF8" stroke="#D9E0E6"/>
+  <text x="146" y="442" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="16">Design QA is complete</text>
+  <text x="146" y="474" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="16">Risk: mobile copy review delay</text>
+  <text x="146" y="506" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="16">Blocked by missing redirect URL</text>
+  <rect x="126" y="564" width="146" height="42" rx="8" fill="url(#button)"/>
+  <text x="152" y="590" fill="white" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Build brief</text>
+  <rect x="288" y="564" width="126" height="42" rx="8" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <text x="310" y="590" fill="#17202A" font-family="Inter, Arial, sans-serif" font-size="16" font-weight="800">Load source</text>
+
+  <rect x="532" y="270" width="504" height="402" rx="16" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <text x="564" y="318" fill="#2166A5" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="800">GENERATED UPDATE</text>
+  <text x="564" y="354" fill="#17202A" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">Onboarding refresh</text>
+  <rect x="564" y="374" width="150" height="34" rx="17" fill="url(#pill)"/>
+  <text x="584" y="396" fill="#13795B" font-family="Inter, Arial, sans-serif" font-size="15" font-weight="800">Jun 3, 2026</text>
+
+  <rect x="564" y="440" width="202" height="88" rx="12" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <rect x="564" y="440" width="202" height="6" rx="3" fill="#13795B"/>
+  <text x="584" y="478" fill="#13795B" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Updates</text>
+  <text x="584" y="504" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="15">Design QA complete</text>
+
+  <rect x="790" y="440" width="202" height="88" rx="12" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <rect x="790" y="440" width="202" height="6" rx="3" fill="#B42318"/>
+  <text x="810" y="478" fill="#B42318" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Blockers</text>
+  <text x="810" y="504" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="15">Missing redirect URL</text>
+
+  <rect x="564" y="552" width="202" height="88" rx="12" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <rect x="564" y="552" width="202" height="6" rx="3" fill="#A16207"/>
+  <text x="584" y="590" fill="#A16207" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Risks</text>
+  <text x="584" y="616" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="15">Copy review delay</text>
+
+  <rect x="790" y="552" width="202" height="88" rx="12" fill="#FFFFFF" stroke="#D9E0E6"/>
+  <rect x="790" y="552" width="202" height="6" rx="3" fill="#6D3BBD"/>
+  <text x="810" y="590" fill="#6D3BBD" font-family="Inter, Arial, sans-serif" font-size="18" font-weight="800">Decisions</text>
+  <text x="810" y="616" fill="#2F3C47" font-family="Inter, Arial, sans-serif" font-size="15">Keep success page?</text>
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="760" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2166A5" stop-opacity="0.16"/>
+      <stop offset="0.38" stop-color="#13795B" stop-opacity="0.12"/>
+      <stop offset="0.7" stop-color="#B83280" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#A16207" stop-opacity="0.16"/>
+    </linearGradient>
+    <linearGradient id="button" x1="126" y1="564" x2="272" y2="606" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2166A5"/>
+      <stop offset="1" stop-color="#6D3BBD"/>
+    </linearGradient>
+    <linearGradient id="pill" x1="564" y1="374" x2="714" y2="408" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7F2EF"/>
+      <stop offset="1" stop-color="#F4EBFF"/>
+    </linearGradient>
+  </defs>
+</svg>
