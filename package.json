@@ -1,0 +1,9 @@
+{
+  "name": "mercury",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A lightweight TPM notes-to-status brief app.",
+  "scripts": {
+    "test": "node tests/brief.test.js"
+  }
+}
