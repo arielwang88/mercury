@@ -9,6 +9,9 @@
   --green: #13795b;
   --amber: #a16207;
   --red: #b42318;
+  --violet: #6d3bbd;
+  --cyan: #087990;
+  --pink: #b83280;
   --shadow: 0 18px 50px rgba(23, 32, 42, 0.12);
 }
 
@@ -19,7 +22,9 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background: linear-gradient(135deg, #f7fafc 0%, #f6f0df 45%, #e7f2ef 100%);
+  background:
+    linear-gradient(135deg, rgba(33, 102, 165, 0.12) 0%, rgba(19, 121, 91, 0.1) 32%, rgba(184, 50, 128, 0.1) 66%, rgba(161, 98, 7, 0.14) 100%),
+    #fbfbf8;
   color: var(--ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
@@ -164,7 +169,7 @@ button {
   min-height: 42px;
   border: 0;
   border-radius: 6px;
-  background: var(--blue);
+  background: linear-gradient(135deg, var(--blue), var(--violet));
   color: #ffffff;
   padding: 0 16px;
   font-weight: 800;
@@ -177,6 +182,17 @@ button.secondary {
   color: var(--ink);
 }
 
+.date-pill {
+  display: inline-flex;
+  width: fit-content;
+  border-radius: 999px;
+  background: #e7f2ef;
+  color: var(--green);
+  padding: 5px 10px;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
 .summary-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -186,8 +202,64 @@ button.secondary {
 
 .summary-grid article {
   min-height: 148px;
+  border-top: 5px solid var(--blue);
   padding: 14px;
   box-shadow: none;
+}
+
+.summary-grid article h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.summary-grid article h3::before {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: currentColor;
+  content: "";
+}
+
+.summary-grid article.category-updates {
+  border-top-color: var(--green);
+}
+
+.category-updates h3 {
+  color: var(--green);
+}
+
+.summary-grid article.category-actions {
+  border-top-color: var(--blue);
+}
+
+.category-actions h3 {
+  color: var(--blue);
+}
+
+.summary-grid article.category-risks {
+  border-top-color: var(--amber);
+}
+
+.category-risks h3 {
+  color: var(--amber);
+}
+
+.summary-grid article.category-blockers {
+  border-top-color: var(--red);
+}
+
+.category-blockers h3 {
+  color: var(--red);
+}
+
+.summary-grid article.category-decisions {
+  border-top-color: var(--violet);
+}
+
+.category-decisions h3 {
+  color: var(--violet);
 }
 
 .summary-grid h3 {
