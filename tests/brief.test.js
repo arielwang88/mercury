@@ -1,5 +1,5 @@
 const assert = require("node:assert/strict");
-const { buildBriefText, calculateHealth, classifyLine, parseNotes } = require("../app");
+const { buildBriefText, calculateHealth, classifyLine, EXAMPLE_SOURCES, parseNotes } = require("../app");
 
 const mockNotes = `Slack: Checkout event mapping is complete and analytics confirmed coverage.
 Meeting: Risk that launch slips if legal does not approve tax copy by Friday.
@@ -37,5 +37,17 @@ const output = buildBriefText("Checkout readiness", brief);
 assert.match(output, /Checkout readiness status update/);
 assert.match(output, /PAY-1842 is blocked/);
 assert.match(output, /confirm beta rollout/);
+
+for (const [sourceName, example] of Object.entries(EXAMPLE_SOURCES)) {
+  const parsed = parseNotes(example.notes);
+  assert.equal(typeof example.projectName, "string");
+  assert.ok(example.projectName.length > 0, `${sourceName} has a project name`);
+  assert.ok(example.notes.length > 0, `${sourceName} has notes`);
+  assert.ok(parsed.updates.length > 0, `${sourceName} includes an update`);
+  assert.ok(parsed.actions.length > 0, `${sourceName} includes an action`);
+  assert.ok(parsed.risks.length > 0, `${sourceName} includes a risk`);
+  assert.ok(parsed.blockers.length > 0, `${sourceName} includes a blocker`);
+  assert.ok(parsed.decisions.length > 0, `${sourceName} includes a decision`);
+}
 
 console.log("Mercury Brief tests passed.");

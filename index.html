@@ -32,9 +32,17 @@
           <label for="rawNotes">Source notes</label>
           <textarea id="rawNotes" name="rawNotes" rows="16" placeholder="Paste notes from Slack, standup, Jira, or meeting docs..."></textarea>
 
+          <label for="exampleSource">Example source</label>
+          <select id="exampleSource" name="exampleSource">
+            <option value="meeting">Meeting notes</option>
+            <option value="jira">Jira updates</option>
+            <option value="slackThread">Slack thread</option>
+            <option value="chat">Team chat</option>
+          </select>
+
           <div class="button-row">
             <button type="submit">Build brief</button>
-            <button type="button" class="secondary" id="loadExample">Use example</button>
+            <button type="button" class="secondary" id="loadExample">Load source</button>
             <button type="button" class="secondary" id="clearBrief">Clear</button>
           </div>
         </form>

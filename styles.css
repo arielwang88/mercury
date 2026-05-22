@@ -26,6 +26,7 @@ body {
 
 button,
 input,
+select,
 textarea {
   font: inherit;
 }
@@ -127,6 +128,7 @@ label:first-child {
 }
 
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid #c7d1da;
